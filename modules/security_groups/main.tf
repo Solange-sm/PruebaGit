@@ -65,7 +65,7 @@ resource "aws_security_group" "backend_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description     = "Tráfico de APP/Docker desde LB3"
+    description     = "Trafico de APP Docker desde LB3"
     protocol        = "tcp"
     from_port       = 8080
     to_port         = 8080
