@@ -32,9 +32,9 @@ variable "private_subnet_cidrs" {
 
 # ===== WebServer Estático (Etapa 2.3) =====
 variable "key_name" {
-  description = "Nombre del par de claves EC2 (Key Pair) existente"
+  description = "Nombre del par de claves EC2 (Key Pair) existente (opcional)"
   type        = string
-  default     = "nsmasm-clave"
+  default     = null
 }
 
 variable "ssh_allowed_cidr" {
