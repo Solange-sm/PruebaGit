@@ -15,6 +15,7 @@ data "aws_ami" "ami_linux" {
 resource "aws_instance" "web_static" {
     ami           = data.aws_ami.ami_linux.id
     instance_type = var.web_instance_type
+    key_name      = var.key_name != null ? var.key_name : null
     
     # Viven en la primera subred PÚBLICA
     subnet_id              = element(var.public_subnet_ids, 0)
@@ -47,6 +48,7 @@ resource "aws_instance" "backend_server" {
     count         = var.backend_count # 3 instancias
     ami           = data.aws_ami.ami_linux.id
     instance_type = var.backend_instance_type
+    key_name      = var.key_name != null ? var.key_name : null
     
     # ¡IMPORTANTE! Viven en las subredes PRIVADAS
     # Usa count.index % 2 para alternar entre dos subredes privadas
