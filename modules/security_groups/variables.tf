@@ -13,3 +13,8 @@ variable "vpc_cidr" {
   description = "CIDR Block de la VPC para reglas de seguridad amplias"
   type        = string
 }
+
+variable "backend_app_port" {
+  description = "Puerto de la aplicación Backend"
+  type        = number
+}

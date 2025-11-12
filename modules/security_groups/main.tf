@@ -67,8 +67,8 @@ resource "aws_security_group" "backend_sg" {
   ingress {
     description     = "Trafico de APP Docker desde LB3"
     protocol        = "tcp"
-    from_port       = 8080
-    to_port         = 8080
+    from_port       = var.backend_app_port
+    to_port         = var.backend_app_port
     security_groups = [aws_security_group.alb_sg.id]
   }
 

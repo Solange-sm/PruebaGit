@@ -30,6 +30,7 @@ module "security_groups" {
     vpc_id               = module.network.vpc_id 
     vpc_cidr             = var.vpc_cidr 
     name_prefix          = var.name_prefix
+    backend_app_port     = var.backend_app_port
 }
 
 # ==========================================================

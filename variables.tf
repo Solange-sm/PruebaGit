@@ -43,7 +43,7 @@ variable "ssh_allowed_cidr" {
   default     = "0.0.0.0/0"
 }
 
-variable "web_server_instance_type" {
+variable "web_instance_type" {
   description = "Tipo de instancia EC2 para WebServer"
   type        = string
   default     = "t2.micro"
@@ -138,12 +138,4 @@ variable "db_password" {
   description = "Contraseña para la base de datos RDS"
   type        = string
   sensitive   = true
-}
-
-# variables.tf (Raíz)
-
-variable "web_instance_type" {
-  description = "Tipo de instancia para el WebServer estático"
-  type        = string
-  default     = "t2.micro" 
 }
