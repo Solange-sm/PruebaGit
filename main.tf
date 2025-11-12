@@ -109,7 +109,6 @@ module "compute" {
     
     # --- VARIABLES SIMPLES (que causaron el error "No declaration found") ---
     name_prefix          = var.name_prefix
-    key_name             = var.key_name
     web_instance_type    = var.web_instance_type # Se asume que usa esta variable
     backend_instance_type = var.backend_instance_type
     backend_count        = var.backend_count
