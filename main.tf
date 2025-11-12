@@ -103,8 +103,8 @@ module "compute" {
     db_password          = var.db_password
     
     # --- DEPENDENCIAS DE LOAD BALANCER ---
-    lb2_tg_arn           = module.loadbalancer.lb2_tg_arn
-    lb3_tg_arn           = module.loadbalancer.lb3_tg_arn
+    lb2_tg_arn           = module.lb.lb2_tg_arn
+    lb3_tg_arn           = module.lb.lb3_tg_arn
     
     # --- VARIABLES SIMPLES (que causaron el error "No declaration found") ---
     name_prefix          = var.name_prefix

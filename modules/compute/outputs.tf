@@ -1,12 +1,14 @@
 output "web_server_id" {
-  description = "ID de la instancia WebServer"
-  value       = aws_instance.web_server.id
+  description = "ID de la instancia del WebServer"
+  value       = aws_instance.web_static.id
 }
 
 output "backend_instance_ids" {
-  value = aws_instance.backend[*].id
+  description = "Lista de IDs de las instancias Backend"
+  value = aws_instance.backend_server[*].id
 }
 
 output "backend_private_ips" {
-  value = aws_instance.backend[*].private_ip
+  description = "Lista de IPs privadas de las instancias Backend"
+  value = aws_instance.backend_server[*].private_ip
 }
