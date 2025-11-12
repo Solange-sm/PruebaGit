@@ -94,10 +94,10 @@ resource "aws_s3_object" "css" {
   content_type = "text/css"
 
   # "source" apunta al archivo local que debes crear
-  source = "style.css"
+  source = "${path.module}/style.css"
 
   # "filemd5" calcula el hash del archivo local para rastrear cambios
-  etag = filemd5("style.css")
+  etag = filemd5("${path.module}/style.css")
 }
 
 # 3. La Imagen
@@ -105,6 +105,6 @@ resource "aws_s3_object" "image" {
   bucket       = aws_s3_bucket.static_site.id
   key          = "lana.jpg"
   content_type = "image/jpeg"
-  source       = "lana.jpg"
-  etag         = filemd5("lana.jpg")
+  source       = "${path.module}/lana.jpg"
+  etag         = filemd5("${path.module}/lana.jpg")
 }
