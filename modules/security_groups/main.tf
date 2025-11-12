@@ -61,7 +61,7 @@ resource "aws_security_group" "web_sg" {
 # --- 3. SG para el Backend (backend_sg de compute.tf) ---
 resource "aws_security_group" "backend_sg" {
   name        = "${var.name_prefix}-backend-sg"
-  description = "Permite tráfico desde LB3 y SSH"
+  description = "Permite trafico desde LB3 y SSH"
   vpc_id      = var.vpc_id
 
   ingress {
