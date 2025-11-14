@@ -11,6 +11,10 @@ resource "aws_db_subnet_group" "db_group" {
   subnet_ids = var.private_subnet_ids
 
   tags = { Name = "${var.name_prefix}-db-subnet-group" }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # --- Instancia RDS (Etapa 2.5) ---
