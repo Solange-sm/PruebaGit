@@ -22,17 +22,44 @@ This project deploys a complete AWS infrastructure using Terraform. It is organi
 
 ## Usage
 
-1. **Initialize Terraform**:
-   ```bash
-   terraform init
-   ```
+### Initialization
+To initialize Terraform in your work environment, run the following command. This will download the necessary providers and configure the backend.
+```bash
+terraform init
+```
 
-2. **Plan the deployment**:
-   ```bash
-   terraform plan
-   ```
+### Formatting and Validation
+Before applying any changes, it is recommended to format the code and validate the syntax.
+```bash
+# Format your Terraform code
+terraform fmt
 
-3. **Apply the configuration**:
-   ```bash
-   terraform apply
-   ```
+# Validate the syntax of your configuration
+terraform validate
+```
+
+### Planning
+To preview the changes Terraform will make to your infrastructure, use the `plan` command. This is a crucial step to verify that the changes are as expected.
+```bash
+terraform plan
+```
+
+### Apply
+To apply the changes and deploy the resources on AWS, use the `apply` command. Terraform will ask for confirmation before proceeding.
+```bash
+terraform apply
+```
+For automated environments or when you are certain of the changes, you can use the `-auto-approve` flag to skip the confirmation.
+```bash
+terraform apply -auto-approve
+```
+
+### Destroy
+To remove all resources created by Terraform, use the `destroy` command. This action is irreversible and will delete all infrastructure managed by your configuration.
+```bash
+terraform destroy
+```
+To skip confirmation, you can use the `-auto-approve` flag.
+```bash
+terraform destroy -auto-approve
+```
