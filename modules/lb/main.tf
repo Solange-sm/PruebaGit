@@ -3,7 +3,7 @@
 
 # --- Etapa 2.2: Load Balancer 1 (Público) -> S3 (Front-End) ---
 resource "aws_lb" "lb1" {
-  name               = "${var.name_prefix}-lb1-frontend"
+  name               = "${var.name_prefix}-lb1-frontend-${var.vpc_id}"
   internal           = false # Público
   load_balancer_type = "application"
 
@@ -18,7 +18,7 @@ resource "aws_lb" "lb1" {
 
 # Target Group que solo existe para cumplir con el listener (no se usa realmente si se redirige)
 resource "aws_lb_target_group" "lb1_tg_s3_redirect" {
-  name        = "${var.name_prefix}-lb1-tg-s3"
+  name        = "${var.name_prefix}-lb1-tg-s3-${var.vpc_id}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -43,7 +43,7 @@ resource "aws_lb_listener" "lb1_listener_http" {
 
 # --- Etapa 2.3: Load Balancer 2 (Público) -> WebServer Estático ---
 resource "aws_lb" "lb2" {
-  name               = "${var.name_prefix}-lb2-webstatic"
+  name               = "${var.name_prefix}-lb2-webstatic-${var.vpc_id}"
   internal           = false
   load_balancer_type = "application"
 
@@ -54,7 +54,7 @@ resource "aws_lb" "lb2" {
 }
 
 resource "aws_lb_target_group" "lb2_tg" {
-  name        = "${var.name_prefix}-lb2-tg"
+  name        = "${var.name_prefix}-lb2-tg-${var.vpc_id}"
   port        = 80 # El WebServer escucha en el 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -76,7 +76,7 @@ resource "aws_lb_listener" "lb2_listener" {
 
 # --- Etapa 2.4: Load Balancer 3 (Público) -> Backend Docker ---
 resource "aws_lb" "lb3" {
-  name               = "${var.name_prefix}-lb3-backend"
+  name               = "${var.name_prefix}-lb3-backend-${var.vpc_id}"
   internal           = false
   load_balancer_type = "application"
 
@@ -87,7 +87,7 @@ resource "aws_lb" "lb3" {
 }
 
 resource "aws_lb_target_group" "lb3_tg" {
-  name = "${var.name_prefix}-lb3-tg"
+  name = "${var.name_prefix}-lb3-tg-${var.vpc_id}"
   # El LB apunta al puerto 8080 (donde mapeamos el docker)
   port        = var.backend_app_port
   protocol    = "HTTP"

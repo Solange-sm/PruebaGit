@@ -5,7 +5,7 @@
 # (De tu 'database.tf' anterior)
 # Le dice a RDS en qué subredes PRIVADAS vivir.
 resource "aws_db_subnet_group" "db_group" {
-  name = "${var.name_prefix}-db-subnet-group"
+  name = "${var.name_prefix}-db-subnet-group-${var.vpc_id}"
 
   # Usa las subredes PRIVADAS recibidas del módulo Network
   subnet_ids = var.private_subnet_ids
