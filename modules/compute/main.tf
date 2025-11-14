@@ -15,6 +15,7 @@ data "aws_ami" "ami_linux" {
 resource "aws_instance" "web_static" {
     ami           = data.aws_ami.ami_linux.id
     instance_type = var.web_instance_type
+    key_name      = var.key_name != null ? var.key_name : null
     
     # Viven en la primera subred PÚBLICA
     subnet_id              = element(var.public_subnet_ids, 0)
@@ -47,6 +48,7 @@ resource "aws_instance" "backend_server" {
     count         = var.backend_count # 3 instancias
     ami           = data.aws_ami.ami_linux.id
     instance_type = var.backend_instance_type
+    key_name      = var.key_name != null ? var.key_name : null
     
     # ¡IMPORTANTE! Viven en las subredes PRIVADAS
     # Usa count.index % 2 para alternar entre dos subredes privadas
@@ -55,22 +57,33 @@ resource "aws_instance" "backend_server" {
     # Asigna el SG del Backend
     vpc_security_group_ids = [var.backend_sg_id]
     
-    # Script para instalar Docker, MariaDB y correr el contenedor
+    # Script para instalar Docker y correr el contenedor
     user_data = <<-EOF
         #!/bin/bash
+        # Actualizar paquetes e instalar Docker
         sudo yum update -y
-        sudo dnf install docker -y
-        sudo dnf install mariadb -y
-        # Iniciar y habilitar el servicio
+        sudo amazon-linux-extras install docker -y
+
+        # Iniciar y habilitar el servicio de Docker
         sudo systemctl start docker
         sudo systemctl enable docker
-        
-        sudo usermod -a -G docker ec2-user
-        
-        # Pausa de 50 seg para que Docker se inicie bien
-        sleep 50 
 
-        # Mapea el puerto del HOST (8080) al puerto del CONTENEDOR (80)
+        # Añadir ec2-user al grupo de docker para ejecutar comandos sin sudo
+        sudo usermod -a -G docker ec2-user
+
+        # Esperar a que el servicio de Docker esté activo
+        # Se intenta hasta 10 veces con una pausa de 10 segundos
+        for i in {1..10}; do
+            if systemctl is-active --quiet docker; then
+                echo "Docker service is running."
+                break
+            fi
+            echo "Waiting for Docker service... attempt $i"
+            sleep 10
+        done
+
+        # Correr el contenedor de Docker
+        # Se mapea el puerto del host al puerto del contenedor
         docker run -d -p ${var.backend_host_port}:${var.backend_container_port} \
             -e DB_HOST=${var.rds_endpoint} \
             -e DB_USER=${var.db_username} \

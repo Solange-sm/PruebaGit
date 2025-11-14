@@ -1,6 +1,10 @@
   # variables.tf (Modulos/Compute)
 variable "name_prefix" { type = string }
-variable "key_name" { type = string }
+variable "key_name" {
+  description = "Nombre del Key Pair para SSH (opcional)"
+  type        = string
+  default     = null
+}
 variable "web_instance_type" { type = string }
 variable "backend_instance_type" { type = string }
 variable "private_subnet_ids" { type = list(string) }

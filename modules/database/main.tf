@@ -5,12 +5,16 @@
 # (De tu 'database.tf' anterior)
 # Le dice a RDS en qué subredes PRIVADAS vivir.
 resource "aws_db_subnet_group" "db_group" {
-  name = "${var.name_prefix}-db-subnet-group"
+  name = "${var.name_prefix}-db-subnet-group-${substr(md5(var.vpc_id), 0, 8)}"
 
   # Usa las subredes PRIVADAS recibidas del módulo Network
   subnet_ids = var.private_subnet_ids
 
   tags = { Name = "${var.name_prefix}-db-subnet-group" }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # --- Instancia RDS (Etapa 2.5) ---
@@ -37,6 +41,7 @@ resource "aws_db_instance" "rds_mysql" {
   vpc_security_group_ids = [var.rds_sg_id] # REFERENCIA AL SG DEL MÓDULO SECURITYGROUP
 
   # --- Configuración Operacional ---
+  apply_immediately   = true  # Aplica cambios de inmediato
   skip_final_snapshot = true  # Saltar snapshot final (ambiente de prueba)
   publicly_accessible = false # ¡CRÍTICO! Base de datos privada
   multi_az            = false # Por costo (ambiente de prueba)
