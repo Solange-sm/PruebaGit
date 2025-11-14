@@ -41,6 +41,7 @@ resource "aws_db_instance" "rds_mysql" {
   vpc_security_group_ids = [var.rds_sg_id] # REFERENCIA AL SG DEL MÓDULO SECURITYGROUP
 
   # --- Configuración Operacional ---
+  apply_immediately   = true  # Aplica cambios de inmediato
   skip_final_snapshot = true  # Saltar snapshot final (ambiente de prueba)
   publicly_accessible = false # ¡CRÍTICO! Base de datos privada
   multi_az            = false # Por costo (ambiente de prueba)
